@@ -1,0 +1,18 @@
+server:
+  port: 7094
+
+balance:
+  updateEndpoint: http://localhost:8005/balance/update
+
+kafka:
+  bootstrapAddress: ${spring.embedded.kafka.brokers}
+  topicName: transaction
+
+logging:
+  level:
+    org:
+      springframework:
+        web: ERROR
+    com:
+      service:
+        cashier: DEBUG

@@ -1,0 +1,9 @@
+server:
+  port: 8084
+
+balance:
+  updateEndpoint: http://localhost:8085/balance/update
+
+kafka:
+  bootstrapAddress: http://localhost:9092
+  topicName: transaction
