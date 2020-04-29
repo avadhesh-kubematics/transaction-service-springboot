@@ -28,14 +28,21 @@ ext {
     swaggerVersion = "2.9.2"
     jacocoVersion = "0.8.5"
     wireMockVersion = "2.25.1"
+    postgresEmbedTest = "1.5.3"
+    kafkaVersion = "2.4.5.RELEASE"
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-//    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     testImplementation('org.springframework.boot:spring-boot-starter-test')
-    compile group: 'org.springframework.kafka', name: 'spring-kafka', version: '2.4.5.RELEASE'
-    testCompile group: 'org.springframework.kafka', name: 'spring-kafka-test', version: '2.2.7.RELEASE'
+    //Kafka
+    compile "org.springframework.kafka:spring-kafka:${kafkaVersion}"
+    testCompile "org.springframework.kafka:spring-kafka-test:${kafkaVersion}"
+    // Postgres + JPA
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    runtimeOnly "org.postgresql:postgresql"
+    testImplementation "io.zonky.test:embedded-database-spring-test:${postgresEmbedTest}"
     // Cucumber Dependencies for BDD
     testImplementation "io.cucumber:cucumber-java:${ioCucumberVersion}"
     testImplementation "io.cucumber:cucumber-junit:${ioCucumberVersion}"

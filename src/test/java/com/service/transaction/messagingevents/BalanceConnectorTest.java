@@ -1,11 +1,4 @@
-package com.service.transaction.connector;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
-
-import static org.mockito.Mockito.*;
+package com.service.transaction.messagingevents;
 
 class BalanceConnectorTest {
 

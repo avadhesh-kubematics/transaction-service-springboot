@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
         classes = TransactionApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
-@EmbeddedKafka
+//@EmbeddedKafka
 public abstract class SpringIntegration {
     protected static final String DEFAULT_URL = "http://localhost:7093/cashier/create";
 

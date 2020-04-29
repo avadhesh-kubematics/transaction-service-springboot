@@ -1,6 +1,7 @@
 package com.service.transaction.helper;
 
 import com.service.transaction.model.TransactionVO;
+import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,12 +16,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class KafkaProducerConfig {
+public class KafkaProducerConfigTest {
 
 
     private String bootstrapAddress;
 
-    public KafkaProducerConfig(@Value("${kafka.bootstrapAddress}") String bootstrapAddress) {
+    public KafkaProducerConfigTest(@Value("${kafka.bootstrapAddress}") String bootstrapAddress) {
         this.bootstrapAddress = bootstrapAddress;
     }
 
@@ -31,6 +32,11 @@ public class KafkaProducerConfig {
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return new DefaultKafkaProducerFactory<>(configProps);
+    }
+
+    @Bean
+    public NewTopic topic1() {
+        return new NewTopic("transaction", 1, (short) 1);
     }
 
     @Bean

@@ -7,3 +7,21 @@ balance:
 kafka:
   bootstrapAddress: http://localhost:9092
   topicName: transaction
+  consumerGroupId: transaction-group
+
+spring:
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    generate-ddl: true
+    hibernate.ddl-auto: create-drop
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password:

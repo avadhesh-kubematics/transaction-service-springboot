@@ -17,7 +17,7 @@ import static com.service.transaction.helper.TestData.getCreditTransaction;
 public class TransactionStepDefinition extends SpringIntegration implements En, TestContextInterface {
 
     @Autowired
-    KafkaTemplate  kafkaTemplate;
+    KafkaTemplate testKafkaTemplate;
 
     @Given("Cashier produces an Credit Transaction event")
     public void cashier_produces_an_Credit_Transaction_event() {
@@ -28,8 +28,9 @@ public class TransactionStepDefinition extends SpringIntegration implements En, 
     }
 
     @When("Transaction service consumes the Credit Transaction event")
-    public void transaction_service_consumes_the_Credit_Transaction_event() {
-        kafkaTemplate.send("transaction",testContext().getPayload(TransactionVO.class));
+    public void transaction_service_consumes_the_Credit_Transaction_event() throws InterruptedException {
+        testKafkaTemplate.send("transaction", testContext().getPayload(TransactionVO.class));
+        Thread.sleep(1000);
     }
 
     @Then("The API should return status {int}")

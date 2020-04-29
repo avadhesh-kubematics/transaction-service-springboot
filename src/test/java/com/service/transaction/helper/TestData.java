@@ -1,5 +1,6 @@
 package com.service.transaction.helper;
 
+import com.service.transaction.model.TransactionDAO;
 import com.service.transaction.model.TransactionVO;
 
 import static com.service.transaction.helper.TestUtils.convertJsonToObject;
@@ -10,6 +11,18 @@ public class TestData {
 
     public static TransactionVO getCreditTransaction() {
         return convertJsonToObject("__files/request/transaction-credit.json", TransactionVO.class);
+    }
+
+    public static TransactionVO getDebitTransaction() {
+        return convertJsonToObject("__files/request/transaction-debit.json", TransactionVO.class);
+    }
+
+    public static TransactionDAO getCreditTransactionDAO() {
+        return convertJsonToObject("__files/request/transaction-dto-credit.json", TransactionDAO.class);
+    }
+
+    public static TransactionDAO getDebitTransactionDAO() {
+        return convertJsonToObject("__files/request/transaction-dto-debit.json", TransactionDAO.class);
     }
 
     public static TransactionVO geTransactionNonExistingCustomer() {

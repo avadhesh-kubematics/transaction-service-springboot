@@ -19,4 +19,9 @@ class TransactionConfigurationTest {
 
         assertEquals("mock-address", actual);
     }
+
+    @Test
+    void createNewTopic_shouldSetTheSameTopicName() {
+        assertEquals("mock-topic", transactionConfiguration.createNewTopic().name());
+    }
 }
