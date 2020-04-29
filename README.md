@@ -1,2 +1,2 @@
-# cashier-service-springboot
-Cashier Demo Service Spring Boot
+# transaction-service-springboot
+Transaction Demo Service Spring Boot

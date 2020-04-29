@@ -6,7 +6,7 @@ balance:
 
 kafka:
   bootstrapAddress: ${spring.embedded.kafka.brokers}
-  topicName: transaction
+  topicName: balance
   consumerGroupId: transaction-group
 
 logging:
