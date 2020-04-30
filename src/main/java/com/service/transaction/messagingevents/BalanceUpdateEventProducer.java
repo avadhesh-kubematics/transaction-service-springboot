@@ -1,5 +1,6 @@
 package com.service.transaction.messagingevents;
 
+import com.service.transaction.model.BalanceUpdateVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -10,7 +11,7 @@ import org.springframework.util.concurrent.ListenableFuture;
 @Component
 public class BalanceUpdateEventProducer {
 
-    private KafkaTemplate<String, Double> kafkaTemplate;
+    private KafkaTemplate<String, BalanceUpdateVO> kafkaTemplate;
     private String topicName;
 
     public BalanceUpdateEventProducer(KafkaTemplate kafkaTemplate, @Value("${kafka.topicName}") String topicName) {
@@ -18,9 +19,9 @@ public class BalanceUpdateEventProducer {
         this.topicName = topicName;
     }
 
-    public void publishUpdateBalance(double actualBalance) {
+    public void publishUpdateBalance(BalanceUpdateVO balanceUpdateVO) {
         log.info("BalanceUpdateEventProducer:produceBalanceUpdate : Init..");
-        ListenableFuture listenableFuture = kafkaTemplate.send(topicName, actualBalance);
+        ListenableFuture listenableFuture = kafkaTemplate.send(topicName, balanceUpdateVO);
         log.debug("BalanceUpdateEventProducer:produceBalanceUpdate listenableFuture : {}", listenableFuture);
         log.info("BalanceUpdateEventProducer:produceBalanceUpdate : End..");
     }

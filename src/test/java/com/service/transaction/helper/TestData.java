@@ -1,5 +1,6 @@
 package com.service.transaction.helper;
 
+import com.service.transaction.model.BalanceUpdateVO;
 import com.service.transaction.model.TransactionDAO;
 import com.service.transaction.model.TransactionVO;
 
@@ -25,7 +26,12 @@ public class TestData {
         return convertJsonToObject("__files/request/transaction-dto-debit.json", TransactionDAO.class);
     }
 
-    public static TransactionVO geTransactionNonExistingCustomer() {
-        return convertJsonToObject("__files/request/transaction-credit-nonexisting-account.json", TransactionVO.class);
+    public static TransactionVO getTransactionNonExistingCustomer() {
+        return convertJsonToObject("__files/request/transaction-credit-nonexisting-account.json",
+                TransactionVO.class);
+    }
+
+    public static BalanceUpdateVO getBalanceUpdateEventMessage() {
+        return convertJsonToObject("__files/request/balance-update.json", BalanceUpdateVO.class);
     }
 }

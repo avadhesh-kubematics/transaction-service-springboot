@@ -1,8 +1,8 @@
 package com.service.transaction.config;
 
+import com.service.transaction.model.BalanceUpdateVO;
 import com.service.transaction.model.TransactionVO;
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.common.serialization.DoubleSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import java.util.HashMap;
@@ -34,11 +35,11 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public ProducerFactory<String, String> balanceProducerFactory() {
+    public ProducerFactory<String, BalanceUpdateVO> balanceProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, this.bootstrapAddress);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, DoubleSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 
@@ -48,7 +49,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, Double> balanceKafkaTemplate() {
+    public KafkaTemplate<String, BalanceUpdateVO> balanceKafkaTemplate() {
         return new KafkaTemplate(balanceProducerFactory());
     }
 }

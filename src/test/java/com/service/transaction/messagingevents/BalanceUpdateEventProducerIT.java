@@ -1,6 +1,7 @@
 package com.service.transaction.messagingevents;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.service.transaction.model.BalanceUpdateVO;
 import io.zonky.test.db.AutoConfigureEmbeddedDatabase;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.After;
@@ -29,6 +30,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import static com.service.transaction.helper.TestData.getBalanceUpdateEventMessage;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThat;
 import static org.springframework.kafka.test.assertj.KafkaConditions.key;
@@ -48,7 +50,7 @@ public class BalanceUpdateEventProducerIT {
     public static EmbeddedKafkaRule embeddedKafka = new EmbeddedKafkaRule(1, true, TOPIC_NAME);
     @Autowired
     private BalanceUpdateEventProducer balanceUpdateEventProducer;
-    private KafkaMessageListenerContainer<String, Double> container;
+    private KafkaMessageListenerContainer<String, BalanceUpdateVO> container;
     private BlockingQueue<ConsumerRecord<String, String>> consumerRecords;
 
     @Before
@@ -60,7 +62,7 @@ public class BalanceUpdateEventProducerIT {
         Map<String, Object> consumerProperties = KafkaTestUtils.consumerProps(
                 "sender", "false", embeddedKafka.getEmbeddedKafka());
 
-        DefaultKafkaConsumerFactory<String, Double> consumer = new DefaultKafkaConsumerFactory<>(consumerProperties);
+        DefaultKafkaConsumerFactory<String, BalanceUpdateVO> consumer = new DefaultKafkaConsumerFactory<>(consumerProperties);
 
         container = new KafkaMessageListenerContainer<>(consumer, containerProperties);
         container.setupMessageListener((MessageListener<String, String>) record -> {
@@ -79,11 +81,11 @@ public class BalanceUpdateEventProducerIT {
 
     @Test
     public void produceEventMessage_shouldReceiveAnEvent_whenAnMessagingEventIsSent() throws InterruptedException, IOException {
-        balanceUpdateEventProducer.publishUpdateBalance(20.0);
+        balanceUpdateEventProducer.publishUpdateBalance(getBalanceUpdateEventMessage());
 
         ConsumerRecord<String, String> received = consumerRecords.poll(10, TimeUnit.SECONDS);
         ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(20.0);
+        String json = mapper.writeValueAsString(getBalanceUpdateEventMessage());
 
         assertThat(received, hasValue(json));
         assertThat(received).has(key(null));

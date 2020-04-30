@@ -58,7 +58,8 @@ class TransactionServiceTest {
 
         double actualBalance = transactionService.processTransaction(getDebitTransaction());
 
-        verify(mockBalanceUpdateEventProducer, times(1)).publishUpdateBalance(actualBalance);
+        verify(mockBalanceUpdateEventProducer, times(1)).
+                publishUpdateBalance(getBalanceUpdateEventMessage());
     }
 
     @Test

@@ -1,6 +1,7 @@
 package com.service.transaction.service;
 
 import com.service.transaction.messagingevents.BalanceUpdateEventProducer;
+import com.service.transaction.model.BalanceUpdateVO;
 import com.service.transaction.model.TransactionDAO;
 import com.service.transaction.model.TransactionVO;
 import com.service.transaction.repository.TransactionRepository;
@@ -37,7 +38,10 @@ public class TransactionService {
         }
 
         log.debug("TransactionService:processTransaction: Publish the updated balance : {}", currentBalance);
-        this.balanceUpdateEventProducer.publishUpdateBalance(currentBalance);
+        BalanceUpdateVO balanceUpdateVO = new BalanceUpdateVO();
+        balanceUpdateVO.setAccountNumber(transactionVO.getAccountNumber());
+        balanceUpdateVO.setCurrentBalance(currentBalance);
+        this.balanceUpdateEventProducer.publishUpdateBalance(balanceUpdateVO);
         TransactionDAO transactionDAO = MAPPER.map(transactionVO);
 
         log.debug("TransactionService:processTransaction: TransactionDAO storing the details : {}", transactionDAO);
